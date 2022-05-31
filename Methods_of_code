@@ -1,0 +1,88 @@
+from glob import glob
+import tkinter as tk
+from tkinter.constants import ANCHOR
+from PIL import Image
+from PIL import ImageTk
+from PIL import ImageEnhance
+from tkinter import filedialog
+import cv2
+import numpy as np
+
+
+def blueButton_callback():
+    opencvImage = cv2.cvtColor(np.array(originalImage), cv2.COLOR_RGB2BGR)
+    opencvImage[:, :, 2] - 100
+    global outputImage
+    outputImage = Image.fromarray(cv2.cvtColor(opencvImage, cv2.COLOR_BGR2RGB))
+    dispayImage(outputImage)
+
+
+def pinkButton_callback():
+    opencvImage = cv2.cvtColor(np.array(originalImage), cv2.COLOR_RGB2BGR)
+    opencvImage[:, :, 1] - 100
+    global outputImage
+    outputImage = Image.fromarray(cv2.cvtColor(opencvImage, cv2.COLOR_BGR2RGB))
+    dispayImage(outputImage)
+
+
+def orangeButton_callback():
+    opencvImage = cv2.cvtColor(np.array(originalImage), cv2.COLOR_RGB2BGR)
+    opencvImage[:, :, 2] - 200
+    global outputImage
+    outputImage = Image.fromarray(cv2.cvtColor(opencvImage, cv2.COLOR_BGR2RGB))
+    dispayImage(outputImage)
+
+
+def noneButton_callback():
+    pass
+
+
+def dispayImage(displayImage):
+    ImagetoDisplay = displayImage.resize((800, 500), Image.ANTIALIAS)
+    ImagetoDisplay = ImageTk.PhotoImage(ImagetoDisplay)
+    showWindow.config(image=ImagetoDisplay)
+    showWindow.photo_ref = ImagetoDisplay
+    showWindow.pack()
+
+
+def importButton_callback():
+    global originalImage
+    filename = filedialog.askopenfilename()
+    originalImage = Image.open(filename)
+    dispayImage(originalImage)
+
+
+def saveButton_callback():
+    savefile = filedialog.asksaveasfile(defaultextension=".jpg")
+    outputImage.save(savefile)
+
+
+def closeButton_callback():
+    window.destroy()
+
+
+def brightness_callback(brightness_pos):
+    brightness_pos = float(brightness_pos)
+    print(brightness_pos)
+    global outputImage
+    enhancer = ImageEnhance.Brightness(originalImage)
+    outputImage = enhancer.enhance(brightness_pos)
+    dispayImage(outputImage)
+
+
+def contrast_callback(contrast_pos):
+    contrast_pos = float(contrast_pos)
+    print(contrast_pos)
+    global outputImage
+    enhancer = ImageEnhance.Brightness(originalImage)
+    outputImage = enhancer.enhance(contrast_pos)
+    dispayImage(outputImage)
+
+
+def color_callback(color_pos):
+    color_pos = float(color_pos)
+    print(color_pos)
+    global outputImage
+    enhancer = ImageEnhance.Brightness(originalImage)
+    outputImage = enhancer.enhance(color_pos)
+    dispayImage(outputImage)
